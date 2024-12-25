@@ -9,8 +9,8 @@ import java.util.UUID
 @Entity(tableName = "transaction")
 data class TransactionDto(
     @PrimaryKey
-    val id: UUID = UUID.randomUUID(),
+    val id: UUID,
     val category: String,
     val amount: Double,
-    val date: LocalDateTime = LocalDateTime.now(),
+    val date: LocalDateTime,
 )

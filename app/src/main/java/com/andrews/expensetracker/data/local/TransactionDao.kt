@@ -9,7 +9,7 @@ import com.andrews.expensetracker.data.local.model.TransactionDto
 @Dao
 interface TransactionDao {
 
-    @Query("SELECT * FROM `transaction`")
+    @Query("SELECT * FROM `transaction` ORDER BY date DESC")
     fun loadAllTransactions(): PagingSource<Int, TransactionDto>
 
     @Insert
