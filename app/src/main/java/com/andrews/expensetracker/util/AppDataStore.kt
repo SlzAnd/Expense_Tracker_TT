@@ -9,8 +9,10 @@ import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+
 
 class AppDataStore(private val context: Context) {
 
@@ -26,7 +28,7 @@ class AppDataStore(private val context: Context) {
     fun getBalance(): Flow<Double> {
         return context.dataStore.data.map {pref ->
             pref[BALANCE] ?: 0.0
-        }
+        }.distinctUntilChanged()
     }
 
     suspend fun setBalance(newBalance: Double) {
@@ -35,8 +37,10 @@ class AppDataStore(private val context: Context) {
         }
     }
 
-    suspend fun getLastPrice(): String? {
-        return context.dataStore.data.first()[LAST_BITCOIN_PRICE]
+    fun getLastPrice(): Flow<String?> {
+        return context.dataStore.data.map {pref ->
+            pref[LAST_BITCOIN_PRICE]
+        }.distinctUntilChanged()
     }
 
     suspend fun getTimestamp(): Long? {

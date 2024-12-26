@@ -6,8 +6,11 @@ import com.andrews.expensetracker.data.local.TransactionDao
 import com.andrews.expensetracker.data.local.TransactionDatabase
 import com.andrews.expensetracker.data.remote.BitcoinPriceApi
 import com.andrews.expensetracker.domain.MainRepository
+import com.andrews.expensetracker.ui.screen.home.HomeViewModel
 import com.andrews.expensetracker.util.AppConstants.BITCOIN_PRICE_API_BASE_URL
+import com.andrews.expensetracker.util.AppDataStore
 import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -35,7 +38,15 @@ val appModule = module {
             .create(BitcoinPriceApi::class.java)
     }
 
+    single<AppDataStore> {
+        AppDataStore(androidContext())
+    }
+
     single<MainRepository> {
-        MainRepositoryImpl(get(), get())
+        MainRepositoryImpl(get(), get(), get())
+    }
+
+    viewModel {
+        HomeViewModel(get())
     }
 }

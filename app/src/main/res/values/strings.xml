@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Expense Tracker</string>
+    <string name="balance">Total Balance</string>
+    <string name="cancel">Cancel</string>
+    <string name="add">Add</string>
+    <string name="add_balance">Top Up Balance</string>
+    <string name="amount">Amount</string>
+    <string name="new_transaction">New Transaction</string>
 </resources>
