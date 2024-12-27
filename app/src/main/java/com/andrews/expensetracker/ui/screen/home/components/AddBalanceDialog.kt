@@ -1,5 +1,6 @@
 package com.andrews.expensetracker.ui.screen.home.components
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -18,6 +19,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -35,6 +37,7 @@ fun AddBalanceDialog(
     var enteredValue by rememberSaveable {
         mutableStateOf("")
     }
+    val context = LocalContext.current
 
     AlertDialog(
         modifier = modifier,
@@ -54,13 +57,20 @@ fun AddBalanceDialog(
             Button(
                 onClick = {
                     val doubleValue = enteredValue.toDoubleOrNull()
-                    doubleValue?.let {
-                        onConfirm(it)
+                    if (doubleValue != null) {
+                        onConfirm(doubleValue)
+                    } else {
+                        enteredValue = ""
+                        Toast.makeText(
+                            context,
+                            "Please enter a valid amount value. Only digits accept",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.secondary,
-                    contentColor = MaterialTheme.colorScheme.primary
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
                 ),
             ) {
                 Text(
@@ -73,7 +83,7 @@ fun AddBalanceDialog(
             Text(
                 text = stringResource(R.string.add_balance),
                 fontSize = 17.sp,
-                color = MaterialTheme.colorScheme.surfaceTint,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
@@ -97,7 +107,7 @@ fun AddBalanceDialog(
                 placeholder = {
                     Text(
                         text = stringResource(R.string.amount),
-                        color = MaterialTheme.colorScheme.surfaceTint.copy(alpha = 0.5f)
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                     )
                 },
                 shape = RoundedCornerShape(12.dp),

@@ -7,6 +7,7 @@ import com.andrews.expensetracker.data.local.TransactionDatabase
 import com.andrews.expensetracker.data.remote.BitcoinPriceApi
 import com.andrews.expensetracker.domain.MainRepository
 import com.andrews.expensetracker.ui.screen.home.HomeViewModel
+import com.andrews.expensetracker.ui.screen.transaction.TransactionViewModel
 import com.andrews.expensetracker.util.AppConstants.BITCOIN_PRICE_API_BASE_URL
 import com.andrews.expensetracker.util.AppDataStore
 import org.koin.android.ext.koin.androidContext
@@ -48,5 +49,9 @@ val appModule = module {
 
     viewModel {
         HomeViewModel(get())
+    }
+
+    viewModel {
+        TransactionViewModel(get())
     }
 }

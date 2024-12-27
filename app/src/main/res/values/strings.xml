@@ -6,4 +6,6 @@
     <string name="add_balance">Top Up Balance</string>
     <string name="amount">Amount</string>
     <string name="new_transaction">New Transaction</string>
+    <string name="create_new_transaction">Create New Transaction</string>
+    <string name="no_transactions">There are no transactions yet</string>
 </resources>

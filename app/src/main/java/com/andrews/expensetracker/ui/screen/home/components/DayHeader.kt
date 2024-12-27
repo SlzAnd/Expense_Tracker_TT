@@ -20,6 +20,7 @@ fun DayHeader(
             .fillMaxWidth()
             .padding(vertical = 16.dp),
         text = date.format(DateTimeFormatter.ofPattern("dd MMMM yyyy")),
-        style = MaterialTheme.typography.titleMedium
+        style = MaterialTheme.typography.titleMedium,
+        color = MaterialTheme.colorScheme.onSurface
     )
 }

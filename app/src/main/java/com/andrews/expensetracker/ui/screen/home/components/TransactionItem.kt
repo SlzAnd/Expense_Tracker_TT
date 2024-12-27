@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.andrews.expensetracker.R
@@ -49,21 +50,24 @@ fun TransactionItem(
 
                 Text(
                     text = transaction.amount.toString(),
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleLarge,
+                    color = Color.Black
                 )
             }
         },
         leadingContent = {
             Text(
                 text = transaction.dateTime.format(DateTimeFormatter.ofPattern("HH:mm")),
-                style = MaterialTheme.typography.titleSmall
+                style = MaterialTheme.typography.titleSmall,
+                color = Color.Black
             )
         },
         trailingContent = {
             if (transaction.amount < 0) {
                 Text(
                     text = transaction.category.name,
-                    style = MaterialTheme.typography.titleSmall
+                    style = MaterialTheme.typography.titleSmall,
+                    color = Color.Black
                 )
             }
         },

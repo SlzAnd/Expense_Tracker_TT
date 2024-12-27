@@ -4,11 +4,8 @@ import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.map
 import com.andrews.expensetracker.data.local.TransactionDao
 import com.andrews.expensetracker.data.local.TransactionPagingSource
-import com.andrews.expensetracker.data.local.model.TransactionDto
-import com.andrews.expensetracker.data.mappers.toTransaction
 import com.andrews.expensetracker.data.mappers.toTransactionDto
 import com.andrews.expensetracker.data.remote.BitcoinPriceApi
 import com.andrews.expensetracker.domain.MainRepository
@@ -17,12 +14,9 @@ import com.andrews.expensetracker.domain.model.TransactionsByDay
 import com.andrews.expensetracker.util.AppDataStore
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 
 
 class MainRepositoryImpl(
@@ -63,7 +57,6 @@ class MainRepositoryImpl(
 
         if (currentTime - lastUpdateTimestamp >= UPDATE_INTERVAL) {
             try {
-                println("Get BTC rate from the API")
                 val newPrice = bitcoinApi.getCurrentPrice().bpi.usd.rate
                 appDataStore.saveLastPriceAndTimestamp(price = newPrice, timestamp = currentTime)
             } catch (e: Exception) {

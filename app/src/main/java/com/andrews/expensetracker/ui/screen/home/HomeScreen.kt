@@ -88,7 +88,8 @@ fun HomeScreen(
             )
             Text(
                 text = stringResource(R.string.balance),
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.onSurface
             )
             Row(
                 modifier = Modifier,
@@ -103,7 +104,8 @@ fun HomeScreen(
                 )
                 Text(
                     text = state.balance.formatBitcoin(),
-                    fontSize = 48.sp
+                    fontSize = 48.sp,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
 
                 IconButton(
@@ -116,7 +118,8 @@ fun HomeScreen(
                         imageVector = Icons.Default.AddCircle,
                         contentDescription = "Add",
                         modifier = Modifier
-                            .size(34.dp)
+                            .size(34.dp),
+                        tint = MaterialTheme.colorScheme.onSurface
                     )
                 }
             }
@@ -144,20 +147,44 @@ fun HomeScreen(
                     .background(Color.LightGray)
             )
 
-            LazyColumn {
-                items(
-                    count = transactions.itemCount,
-                    key = transactions.itemKey { it.date },
-                    contentType = transactions.itemContentType { "Transactions" }
-                ) {index ->
-                    transactions[index]?.let {transactionsByDay ->
-                        DayHeader(date = transactionsByDay.date)
-                        transactionsByDay.transactions.forEach {
-                            TransactionItem(
-                                transaction = it
-                            )
-                            Spacer(Modifier.height(8.dp))
+            if (transactions.itemCount > 0) {
+                LazyColumn {
+                    items(
+                        count = transactions.itemCount,
+                        key = transactions.itemKey { it.date },
+                        contentType = transactions.itemContentType { "Transactions" }
+                    ) {index ->
+                        transactions[index]?.let {transactionsByDay ->
+                            DayHeader(date = transactionsByDay.date)
+                            transactionsByDay.transactions.forEach {
+                                TransactionItem(
+                                    transaction = it
+                                )
+                                Spacer(Modifier.height(8.dp))
+                            }
                         }
+                    }
+                }
+            } else {
+                Box(
+                    modifier = Modifier.weight(1f),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.no_content),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.size(120.dp),
+                        )
+                        Text(
+                            text = stringResource(R.string.no_transactions),
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
                     }
                 }
             }

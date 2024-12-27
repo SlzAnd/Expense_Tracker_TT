@@ -25,7 +25,6 @@ class HomeViewModel(
         repository.getBalance(),
         repository.getBitcoinRateToUsd()
     ) { state, newBalance, newBtcRate ->
-        println("Inside combine: newRate: $newBtcRate, newBalance: $newBalance")
         state.copy(
             balance = newBalance,
             btcRate = newBtcRate
@@ -39,14 +38,6 @@ class HomeViewModel(
         viewModelScope.launch {
             repository.addTransaction(
                 Transaction(category = Category.OTHER, amount = value)
-            )
-        }
-    }
-
-    fun addTransaction(category: Category, amount: Double) {
-        viewModelScope.launch {
-            repository.addTransaction(
-                Transaction(category = category, amount = amount)
             )
         }
     }

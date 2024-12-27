@@ -29,7 +29,8 @@ fun BtcRateItem(
         ) {
             Text(
                 text = "1 BTC",
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface
             )
             Spacer(Modifier.width(4.dp))
             Image(
@@ -42,7 +43,8 @@ fun BtcRateItem(
 
         Text(
             text = "$$rate",
-            style = MaterialTheme.typography.titleMedium
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onSurface
         )
     }
 }
