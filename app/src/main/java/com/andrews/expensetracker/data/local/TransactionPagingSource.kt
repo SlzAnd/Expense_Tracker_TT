@@ -4,7 +4,6 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.andrews.expensetracker.data.mappers.toTransaction
 import com.andrews.expensetracker.domain.model.TransactionsByDay
-import kotlinx.coroutines.flow.first
 
 class TransactionPagingSource(
     private val dao: TransactionDao
@@ -37,13 +36,10 @@ class TransactionPagingSource(
                     )
                 }
 
-            val totalItems = dao.getTransactionCount().first()
-            val hasMoreItems = (page + 1) * params.loadSize < totalItems
-
             LoadResult.Page(
                 data = groupedTransactions,
                 prevKey = if (page == 0) null else page - 1,
-                nextKey = if (hasMoreItems) page + 1 else null
+                nextKey = if (transactions.size < params.loadSize) null else page + 1
             )
         } catch (e: Exception) {
             LoadResult.Error(e)

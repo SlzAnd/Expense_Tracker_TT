@@ -35,7 +35,10 @@ class MainRepositoryImpl(
             .flatMapLatest {
                 Pager(
                     config = PagingConfig(
-                        pageSize = 20
+                        pageSize = 20,
+                        initialLoadSize = 20,
+                        prefetchDistance = 1,
+                        enablePlaceholders = false
                     )
                 ) {
                     TransactionPagingSource(dao = dao)

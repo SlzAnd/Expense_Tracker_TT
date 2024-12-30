@@ -40,7 +40,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
-import androidx.paging.compose.itemKey
 import com.andrews.expensetracker.R
 import com.andrews.expensetracker.ui.navigation.Screen
 import com.andrews.expensetracker.ui.screen.home.components.AddBalanceDialog
@@ -49,6 +48,7 @@ import com.andrews.expensetracker.ui.screen.home.components.DayHeader
 import com.andrews.expensetracker.ui.screen.home.components.TransactionItem
 import com.andrews.expensetracker.util.formatBitcoin
 import org.koin.androidx.compose.koinViewModel
+import java.time.LocalDate
 
 
 @Composable
@@ -62,6 +62,7 @@ fun HomeScreen(
     var showBalanceDialog by rememberSaveable {
         mutableStateOf(false)
     }
+    val displayedDates = mutableSetOf<LocalDate>()
 
     LifecycleEventEffect(Lifecycle.Event.ON_START) {
         viewModel.checkBtcRate()
@@ -148,14 +149,19 @@ fun HomeScreen(
             )
 
             if (transactions.itemCount > 0) {
-                LazyColumn {
+                LazyColumn(
+                    modifier = Modifier.padding(bottom = 32.dp)
+                ) {
                     items(
                         count = transactions.itemCount,
-                        key = transactions.itemKey { it.date },
                         contentType = transactions.itemContentType { "Transactions" }
                     ) {index ->
                         transactions[index]?.let {transactionsByDay ->
-                            DayHeader(date = transactionsByDay.date)
+                            val transactionsDate = transactionsByDay.date
+                            if (transactionsByDay.date !in displayedDates) {
+                                displayedDates.add(transactionsDate)
+                                DayHeader(date = transactionsByDay.date)
+                            }
                             transactionsByDay.transactions.forEach {
                                 TransactionItem(
                                     transaction = it
